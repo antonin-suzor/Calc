@@ -1,7 +1,11 @@
+whole_input = { entry_sep } { entry } { entry_sep } ;
+
+
+
 (* Entries. These must return a value *)
 
-entry = base_entry entry_end
-      | complex_entry entry_end
+entry = base_entry entry_sep
+      | complex_entry entry_sep
       ;
 
 base_entry = statement
@@ -10,7 +14,7 @@ base_entry = statement
 
 complex_entry = "{" { base_entry } [statement] "}" ;
 
-entry_end = ";" | "\n" | "\r" ;
+entry_sep = ";" | "\n" | "\r" ;
 
 
 

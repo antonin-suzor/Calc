@@ -1,0 +1,21 @@
+input:
+- file
+- command-line
+
+output:
+- normal
+- silent
+- verbose ?
+
+return code:
+- if option "--return" is used, return result of last command (no guarantee)
+- otherwise:
+  - 0 if no error
+
+arguments:
+- "-h" "--help"
+- "-v" "--version"
+- "--return" return result of last command (no guarantee)
+- "--sep=" specifies the separator between commands
+- "--no-op-order" removes all ordering of binary operators
+- last argument will be considered as the file to execute (if it is not a predefined argument)
