@@ -1,0 +1,97 @@
+(* Entries. These must return a value *)
+
+entry = base_entry entry_end
+      | complex_entry entry_end
+      ;
+
+base_entry = statement
+           | command
+           ;
+
+complex_entry = "{" { base_entry } [statement] "}" ;
+
+entry_end = ";" | "\n" | "\r" ;
+
+
+
+(* Statements. These return their own value *)
+
+statement = base_statement
+          ;
+
+base_statement = expression ;
+
+
+
+(* Commands. These do not specify which value to return *)
+
+command = variable_definition_command
+        | variable_reference_command
+        | function_definition_command
+        | function_variable_command
+        ;
+
+variable_definition_command = identifier "=" statement ;
+
+variable_reference_command = identifier ":" statement ;
+
+function_definition_command = identifier "(" parameter_list ")" "=" entry ;
+
+function_variable_command = identifier "(" parameter_list ")" ":" entry ;
+
+
+
+(* Finer syntax *)
+
+parameter_list = [ identifier { "," identifier } ] ;
+
+argument_list = [ expression { "," expression } ] ;
+
+expression = number
+           | identifier
+           | unary_operator expression
+           | expression binary_operator expression
+           | identifier "(" argument_list ")"
+           | ternary
+           ;
+
+ternary = expression "?" expression ":" expression ;
+
+
+
+(* Atomic elements *)
+
+unary_operator = "-" ;
+
+binary_operator = "+"
+                | "-"
+                | "*"
+                | "/"
+                | "%"
+                | "**"
+                | "//"
+                | "=="
+                | "!="
+                | "<"
+                | "<="
+                | ">"
+                | ">="
+                ;
+
+identifier = letter { letter | digit | "_" } ;
+
+
+
+(* Boilerplate *)
+
+letter = lowercase | uppercase ;
+
+lowercase = "a" | "b" | "c" | "d" | "e" | "f" | "g" | "h" | "i" | "j" | "k" | "l" | "m" | "n" | "o" | "p" | "q" | "r" | "s" | "t" | "u" | "v" | "w" | "x" | "y" | "z" ;
+
+uppercase = "A" | "B" | "C" | "D" | "E" | "F" | "G" | "H" | "I" | "J" | "K" | "L" | "M" | "N" | "O" | "P" | "Q" | "R" | "S" | "T" | "U" | "V" | "W" | "X" | "Y" | "Z" ;
+
+number = digit { digit } ;
+
+digit = "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" ;
+
+whitespace = " " | "\t" ;
